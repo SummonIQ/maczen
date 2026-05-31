@@ -1,0 +1,181 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum LicenseStatus {
+  active
+  revoked
+}
+
+enum SubscriptionPlan {
+  free
+  pro_monthly
+  pro_yearly
+  lifetime
+}
+
+enum SubscriptionStatus {
+  inactive
+  active
+  trialing
+  past_due
+  canceled
+  incomplete
+  unpaid
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  name         String?
+  firstName    String?
+  lastName     String?
+  emailVerified Boolean      @default(false)
+  image        String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  accounts     Account[]
+  sessions     Session[]
+  subscriptions Subscription[]
+  entitlements Entitlement[]
+  roadmapVotes RoadmapVote[]
+  roadmapComments RoadmapComment[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model Account {
+  id                    String   @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  userId               String
+  user                 User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan                 SubscriptionPlan   @default(free)
+  status               SubscriptionStatus @default(inactive)
+  stripeCustomerId     String?
+  stripeSubscriptionId String?            @unique
+  stripePriceId        String?
+  stripeSessionId      String?
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean            @default(false)
+  canceledAt           DateTime?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([stripeCustomerId])
+}
+
+model Entitlement {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  featureKey String
+  enabled    Boolean  @default(false)
+  source     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, featureKey])
+  @@index([userId])
+}
+
+model License {
+  id                   Int           @id @default(autoincrement())
+  key                  String        @unique
+  email                String
+  plan                 String
+  status               LicenseStatus @default(active)
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  activatedAt          DateTime?
+  machineId            String?
+  stripeCustomerId     String?
+  stripeSessionId      String?       @unique
+  stripeSubscriptionId String?
+  stripePriceId        String?
+
+  @@index([stripeCustomerId])
+  @@index([stripeSubscriptionId])
+}
+
+model RoadmapVote {
+  id              String   @id @default(cuid())
+  itemSlug        String
+  actorKey        String
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  isAuthenticated Boolean  @default(false)
+  weight          Int      @default(1)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([itemSlug, actorKey])
+  @@index([itemSlug])
+  @@index([userId])
+}
+
+model RoadmapComment {
+  id              String   @id @default(cuid())
+  itemSlug        String
+  actorKey        String
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  authorLabel     String
+  body            String
+  isAuthenticated Boolean  @default(false)
+  weight          Int      @default(1)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([itemSlug, createdAt(sort: Desc)])
+  @@index([userId])
+}

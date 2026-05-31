@@ -1,0 +1,33 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "MacZen Tauri",
+  "version": "0.0.1",
+  "identifier": "com.maczen.desktop.tauri",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:30232"
+  },
+  "app": {
+    "macOSPrivateApi": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "MacZen Tauri",
+        "width": 1200,
+        "height": 800,
+        "resizable": true,
+        "decorations": false,
+        "transparent": true,
+        "shadow": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "icon": ["icons/trayIconTemplate.png"],
+    "externalBin": ["binaries/MacZenBridgeCLI", "binaries/ffmpeg"]
+  }
+}

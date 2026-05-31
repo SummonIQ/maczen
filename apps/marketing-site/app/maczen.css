@@ -1,0 +1,53 @@
+.maczen-app {
+  --background: 255 255 255;
+  --foreground: 10 10 10;
+  --muted-foreground: 115 115 115;
+  --card: 255 255 255;
+  --border: 229 229 229;
+  --primary: 147 51 234;
+  color-scheme: light;
+  background-color: #ffffff !important;
+  color: rgb(10 10 10);
+}
+
+.maczen-app .bg-background {
+  background-color: rgb(var(--background));
+}
+.maczen-app .text-foreground {
+  color: rgb(var(--foreground));
+}
+.maczen-app .text-muted-foreground {
+  color: rgb(var(--muted-foreground));
+}
+.maczen-app .bg-card {
+  background-color: rgb(var(--card));
+}
+.maczen-app .border-border {
+  border-color: rgb(var(--border));
+}
+.maczen-app .text-primary {
+  color: rgb(var(--primary));
+}
+.maczen-app .bg-primary {
+  background-color: rgb(var(--primary));
+}
+.maczen-app .bg-primary\/10 {
+  background-color: rgb(var(--primary) / 0.1);
+}
+.maczen-app .border-primary\/50 {
+  border-color: rgb(var(--primary) / 0.5);
+}
+.maczen-app .text-primary-foreground {
+  color: white;
+}
+.maczen-app .bg-secondary {
+  background-color: rgb(var(--muted-foreground) / 0.1);
+}
+.maczen-app .text-secondary-foreground {
+  color: rgb(var(--foreground));
+}
+.maczen-app .glass-card {
+  background: rgb(var(--background) / 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgb(var(--border));
+}

@@ -1,0 +1,3 @@
+"Enable / Disable","Service Name",Description,"Impact of Disabling"
+"🔴 Disable",com.apple.ap.adprivacyd,"This service is part of Apple's advertising framework and is responsible for managing ad privacy and tracking settings.","Disabling it may interfere with the system's ability to respect your ad tracking preferences, potentially leading to less personalized or relevant ads in Apple's apps."
+"🔴 Disable",com.apple.ap.promotedcontentd,"This daemon is responsible for fetching and displaying promoted content within Apple's applications, such as the App Store.","Disabling this will likely prevent the display of promoted or featured content in various Apple apps."
