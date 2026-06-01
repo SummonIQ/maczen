@@ -1,3 +1,20 @@
+<!-- SUMMONIQ-OSS-HEADER:START -->
+<div align="center">
+
+  <img src="apps/desktop-app-tauri/src-tauri/icons/trayIconTemplate.png" alt="Maczen logo" width="112">
+
+  <h1>Maczen</h1>
+  <p>A modern, adaptive screenshot and screen recording organizer with desktop (Electron) and web (Next.js) interfaces.</p>
+
+  <p>
+    <a href="https://github.com/SummonIQ/maczen"><img alt="Repository" src="https://img.shields.io/badge/github-SummonIQ%2Fmaczen-24292f?logo=github"></a>
+    <a href="https://unlicense.org/"><img alt="License: Unlicense" src="https://img.shields.io/badge/license-Unlicense-blue.svg"></a>
+  </p>
+
+</div>
+
+---
+<!-- SUMMONIQ-OSS-HEADER:END -->
 # MacZen Monorepo
 
 A modern, adaptive screenshot and screen recording organizer with desktop (Electron) and web (Next.js) interfaces.
